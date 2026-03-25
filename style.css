@@ -90,6 +90,13 @@ button:hover {
   color: #0000AA;
 }
 
+#closeModalBtn{
+  background-color: black;
+}
+#closeModalBtn:hover{
+  background-color: var(--MS2-cyan);
+}
+
 .container {
     padding: calc(50vh / 4) calc(50vw / 8 );
     display:grid;
@@ -176,3 +183,4 @@ button:hover {
     background-color: var(--MS2-cyan-light);
     color:black;
 }
+

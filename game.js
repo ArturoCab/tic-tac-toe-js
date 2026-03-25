@@ -13,10 +13,11 @@ function createGame(a,b){
             this.palo=palo;
         }
     }
+    this.completed=false;
     this.a=a;
-    this.aPalo="x";
+    this.aPalo="✖";
     this.b=b;
-    this.bPalo="0";
+    this.bPalo="◯";
     let table=[["&","&","&"],["&","&","&"],["&","&","&"]];
     let stackRows=[[],[],[]];
     let stackColumns=[[],[],[]];
@@ -33,9 +34,12 @@ function createGame(a,b){
         stackColumns=[[],[],[]];
         diagonal=[[],[]];
         winning=[];
+        completed=false;
     }
 
     function Play(palo, x, y){
+        if(completed)
+            return false;
         x=Math.max(1,x);
         y=Math.max(1,y);
         if(table[y-1][x-1]==="&"){
@@ -61,7 +65,7 @@ function createGame(a,b){
     }
 
     function getResult(){
-        console.log(a, aPt," : ",b,bPt);
+        //console.log(a, aPt," : ",b,bPt);
         return {"ra":aPt, "rb":bPt};
     }
 
@@ -79,17 +83,19 @@ function createGame(a,b){
             if(x[0].palo===x[1].palo && x[1].palo===x[2].palo){
                 winning.push(...x);
                 //three in line
-
-                if(x[0]===aPalo){
+                debugger;
+                if(x[0].palo===aPalo){
                     aWins();
                 }else{
                     bWins();
                 }
+                completed=true;
                 return true;
             }
         } 
         if(rows.length===7){
             //the board is completed
+            completed=true;
             return true;
         }
 
@@ -110,7 +116,25 @@ var game=createGame("X","O");
 let currentPlayer=0;
 
 
+
+function updateResult(){
+    const p1wins=document.querySelectorAll(".p1-wins");
+    const p2wins=document.querySelectorAll(".p2-wins");
+    const result=game.getResult();
+
+    p1wins.forEach(e=>{
+      e.innerText=result["ra"];  
+    });
+    p2wins.forEach(e=>{
+        e.innerText=result["rb"];
+    })
+    
+}
+
+
+//#region clickOnBoard
 let gato=document.querySelector(".gato");
+updateResult();
 gato.addEventListener("click", (event)=>{
     event.preventDefault();
 
@@ -139,8 +163,55 @@ gato.addEventListener("click", (event)=>{
                     }
                 }
             });
+            updateResult();
         }
 
     }
+});
+function clearScreen(){
+    const tiles=document.querySelectorAll(".element");
+    tiles.forEach(x=>{
+        x.innerText="";
+        x.classList.remove("win");
+    });
+    updateResult();
+
+}
+const newGame=document.querySelector("#ngame");
+newGame.addEventListener("click",(event)=>{
+    event.preventDefault();
+    game=createGame("X","0");
+    clearScreen();
+});
+//#endregion clickOnBoard
+
+const rematch=document.querySelector("#reMatch");
+rematch.addEventListener("click",(event)=>{
+    event.preventDefault();
+    game.reset();
+    clearScreen();
+    //game.DrawTable();
 })
+
+const closeModalBtn = document.getElementById("closeModalBtn");
+const myModal = document.getElementById("myModal"); // Get the dialog element
+const quit=document.querySelector("#quit");
+
+quit.addEventListener("click", () => {
+    myModal.showModal(); // showModal() method opens as a modal dialog
+
+
+
+
+
+
+
 //#endregion
+
+
+});
+
+// Close the modal (the form method="dialog" handles basic closing, but this is explicit)
+closeModalBtn.addEventListener("click", () => {
+    myModal.close();
+});

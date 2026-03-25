@@ -14,17 +14,17 @@
             <div class="panel-title">STATS</div>
             <div class="player1">
                 <div>Player 1</div>
-                <div>palo</div>
-                <div>#wins</div>
+                
+                <div><span class="p1-wins">0</span></div>
             </div>
-            <div>
+            <!-- <div>
                 Current Turn
                 "✖":"◯"
-            </div>
+            </div> -->
             <div class="player2">
-                <div>Player 1</div>
-                <div>palo</div>
-                <div>#wins</div>
+                <div>Player 2</div>
+                
+                <div><span class="p2-wins">0</span></div>
             </div>
         </div>
         <div class="panel gato">
@@ -43,10 +43,20 @@
         </div>
 
         <div class="panel menu">
-            <button>New game</button>
-            <button>Rematch</button>
-            <button>Quit</button>
+            <button id="ngame">New game</button>
+            <button id="reMatch">Rematch</button>
+            <button id="quit">Quit</button>
         </div>
     </div>
+    
+    <dialog id="myModal">
+        <h2>Game Over</h2>
+        <p>Final Result</p>
+        <p>Player 1: <span class="p1-wins">0</span></p>
+        <p>Player 2: <span class="p2-wins">0</span></p>
+        <form method="dialog">
+            <button id="closeModalBtn" value="default">Close</button>
+        </form>
+    </dialog>
 </body>
 </html>
