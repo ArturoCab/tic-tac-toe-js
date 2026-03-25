@@ -74,7 +74,7 @@ function createGame(a,b){
     }
 
     function isOver(){
-        debugger;
+        
         
         let rows=[...stackRows,...stackColumns,...diagonal];
         rows=rows.filter((x)=>x.length===3);
@@ -83,7 +83,7 @@ function createGame(a,b){
             if(x[0].palo===x[1].palo && x[1].palo===x[2].palo){
                 winning.push(...x);
                 //three in line
-                debugger;
+                
                 if(x[0].palo===aPalo){
                     aWins();
                 }else{
@@ -132,12 +132,26 @@ function updateResult(){
 }
 
 
+function updatePlayer(cur){
+    const players=document.querySelectorAll(".player");
+
+    players.forEach((x,id)=>{
+        console.log(id);
+        console.log(x,x.classList);
+        if(id===cur)
+            x.classList.add("current");
+        else
+            x.classList.remove("current");
+    });
+}
+
 //#region clickOnBoard
 let gato=document.querySelector(".gato");
 updateResult();
+updatePlayer(currentPlayer);
 gato.addEventListener("click", (event)=>{
+    
     event.preventDefault();
-
     let pos;
     try{
         pos=event.target.getAttribute("data-pos");
@@ -147,9 +161,9 @@ gato.addEventListener("click", (event)=>{
     }
     let palo=currentPlayer===0?"✖":"◯";
 
-    debugger;
 
     if(game.Play(palo,pos[0],pos[1])){
+        updatePlayer((currentPlayer+1)%2);
         event.target.innerText=palo;
         currentPlayer = (currentPlayer+1)%2;
         if(game.isOver()){
@@ -199,19 +213,10 @@ const quit=document.querySelector("#quit");
 
 quit.addEventListener("click", () => {
     myModal.showModal(); // showModal() method opens as a modal dialog
-
-
-
-
-
-
-
-//#endregion
-
-
 });
 
 // Close the modal (the form method="dialog" handles basic closing, but this is explicit)
 closeModalBtn.addEventListener("click", () => {
     myModal.close();
 });
+//#endregion

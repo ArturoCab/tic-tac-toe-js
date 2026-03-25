@@ -76,6 +76,10 @@ body::after {
   pointer-events: none;
 }
 
+.current{
+  background-color: black;
+}
+
 button {
     font-size: 1.5em;
   background: none;
